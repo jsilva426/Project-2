@@ -44,27 +44,28 @@ void setRight(vector<BinaryTree> &tree, int curr, string rawEvent)
 	tree.push_back(b1);
 }
 
-void setId()
+void setId(vector<BinaryTree> &tree, int curr, string id)
 {
-	;
+	tree[curr].ID = id;
 }
 
-void setParentID()
+void setParentID(vector<BinaryTree> &tree, int curr, string id)
 {
-	;
+	tree[curr].parentID = id;
 }
 
-void appenedLHIST()
+void appenedLHIST(vector<BinaryTree> &tree, int curr, string lHash)
 {
-	;
+	tree[curr].LHIST.push_back(lHash);
 }
 
-void appendRHIST()
+void appendRHIST(vector<BinaryTree> &tree, int curr, string rHash)
 {
-	;
+	tree[curr].RHIST.push_back(rHash);
 }
 
-void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this so that upon insert 2 nodes are created not just one
+void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this so that upon insert 2 nodes are created not just one//Update creates one node that is what is being insterted
+														//then creates a null second node to keep tree accurate.
 {
 	if (tree.size() == 0)
 	{
@@ -79,6 +80,7 @@ void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this 
 			if (tree[currentIdx].leftIndex == -1)
 			{
 				setLeft(tree, currentIdx, rawEvent);
+				setRight(tree, NULL, NULL);
 				break;
 			}
 			else
@@ -89,6 +91,7 @@ void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this 
 			if (tree[currentIdx].rightIndex == -1)
 			{
 				setRight(tree, currentIdx, rawEvent);
+				setLeft(tree, NULL, NULL);
 				break;
 			}
 			else
