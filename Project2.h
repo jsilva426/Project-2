@@ -44,7 +44,27 @@ void setRight(vector<BinaryTree> &tree, int curr, string rawEvent)
 	tree.push_back(b1);
 }
 
-void Insert(vector<BinaryTree> &tree, string rawEvent)
+void setId()
+{
+	;
+}
+
+void setParentID()
+{
+	;
+}
+
+void appenedLHIST()
+{
+	;
+}
+
+void appendRHIST()
+{
+	;
+}
+
+void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this so that upon insert 2 nodes are created not just one
 {
 	if (tree.size() == 0)
 	{
@@ -100,7 +120,7 @@ void PostTrav(vector <BinaryTree> &tree, unsigned int Idx)
 		PostTrav(tree, tree[Idx].leftIndex);
 	if (tree[Idx].rightIndex != -1)
 		PostTrav(tree, tree[Idx].rightIndex);
-	cout << v1[Idx].rawEvent << endl;
+	cout << tree[Idx].rawEvent << endl;
 }
 
 void rootHash()
