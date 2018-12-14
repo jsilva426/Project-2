@@ -1,137 +1,120 @@
 #pragma once
-//Recieved Help from https://www.codeproject.com/Articles/602805/Creating-a-Binary-Search-Tree-B
-#include <iostream>
-using std::cin;
-using std::cout;
-using std::endl;
-#include <string>
-using std::string;
 #include <vector>
 using std::vector;
-struct BinaryTree
+#include <string>
+using std::string;
+using std::to_string;
+#include<functional>
+using std::hash;
+
+//calculate index of left child v[2*k+1]
+//calc ind of rchild v[2*k +2]
+//calc ind of root v[(k-1)/2
+
+
+struct node
 {
+
 	string ID;
 	string parentID;
-	string rawEvent;
+	string rEvent;
+	
+	int leftInd;
+	int rightInd;
+
 	string LHASH;
 	string RHASH;
-	int rightIndex;
-	int leftIndex;
-	vector<string> LHIST;
-	vector<string> RHIST;
+
+	vector<string>LHIST,RHIST;
+
 };
 
-void createNode(vector<BinaryTree> &tree, string rawEvent)
+string hashID(string parent, string rawEvent)
 {
-	struct BinaryTree b1 = { NULL,NULL,rawEvent,NULL,NULL,-1,-1};
-	tree.push_back(b1);
-}
-
-void setLeft(vector<BinaryTree> &tree, int curr, string rawEvent)
-{
-	int leftInd = tree.size();
-	tree[curr].leftIndex = leftInd;
-	struct BinaryTree b1 = { NULL,NULL,rawEvent,NULL,NULL,-1,-1 };
-	tree.push_back(b1);
+	string id = rawEvent + parent;
+	std::hash<string> hash_fn;
+	size_t ID = hash_fn(id);
+	int a = ID;
+	string b = to_string(a).substr(0, 7);
+	return b;
 
 }
 
-void setRight(vector<BinaryTree> &tree, int curr, string rawEvent)
+string leftChildHash(string ID ,string parent, string rawE,string LHASH,string RHASH)
 {
-	int rightInd = tree.size();
-	tree[curr].rightIndex = rightInd;
-	struct BinaryTree b1 = { NULL,NULL,rawEvent,NULL,NULL,-1,-1 };
-	tree.push_back(b1);
+	string l = ID + parent + rawE + LHASH + RHASH;
+	std::hash<string> hash_fn;
+	size_t h = hash_fn(l);
+	int a = h;
+	string b = to_string(a).substr(0, 7);
+	return b;
+
+}
+void rootNode(vector<struct node> &v1, string rawEvent)
+{
+	string id = rawEvent + "No Parent";
+	string parId = "No Parent";
+	std::hash<string> hash_fn;
+	size_t ID = hash_fn(id);
+	size_t par = hash_fn(parId);
+	int a = ID;
+	string b = to_string(a).substr(0, 7);
+	a = par;
+	string c = to_string(a).substr(0, 7);
+
+
+
+	struct node root = { b, rawEvent,c,-1,-1 };
+	v1.push_back(root);
 }
 
-void setId(vector<BinaryTree> &tree, int curr, string id)
+
+
+void setLChild(vector<struct node> &tree, int curr, string rawEvent)
 {
-	tree[curr].ID = id;
+	int leftIndex = tree.size();
+	tree[curr].leftInd = leftIndex;
+	struct node n = { NULL,rawEvent,NULL,-1,-1 };
+	tree.push_back(n);
 }
 
-void setParentID(vector<BinaryTree> &tree, int curr, string id)
+void setrChild(vector<struct node> &tree, int curr, string rawEvent)
 {
-	tree[curr].parentID = id;
+	int rightIndex = tree.size();
+	tree[curr].rightInd = rightIndex;
+	struct node n = { NULL,rawEvent,NULL,-1,-1 };
+	tree.push_back(n);
 }
 
-void appenedLHIST(vector<BinaryTree> &tree, int curr, string lHash)
-{
-	tree[curr].LHIST.push_back(lHash);
-}
 
-void appendRHIST(vector<BinaryTree> &tree, int curr, string rHash)
-{
-	tree[curr].RHIST.push_back(rHash);
-}
-
-void Insert(vector<BinaryTree> &tree, string rawEvent)	//we need to modify this so that upon insert 2 nodes are created not just one//Update creates one node that is what is being insterted
-														//then creates a null second node to keep tree accurate.
+void Insert(vector<struct node> &tree, string rawE)
 {
 	if (tree.size() == 0)
 	{
-		cout << "Tree is empty" << endl;
+		cout << "No root, create a root first" << endl;
 		return;
 	}
- int currentIdx = 0;
-	while (currentIdx < tree.size())
+	int curr = 0;
+	while (curr < tree.size())
 	{
-		if (rawEvent<= tree[currentIdx].rawEvent)
+		if (rawE <= tree[curr].rEvent)
 		{
-			if (tree[currentIdx].leftIndex == -1)
+			if (tree[curr].leftInd == -1)
 			{
-				setLeft(tree, currentIdx, rawEvent);
-				setRight(tree, NULL, NULL);
+				setLChild(tree, curr, rawE);
 				break;
 			}
 			else
-				currentIdx = tree[currentIdx].leftIndex;
+				curr = tree[curr].leftInd;
 		}
 		else
 		{
-			if (tree[currentIdx].rightIndex == -1)
+			if (tree[curr].rightInd == -1)
 			{
-				setRight(tree, currentIdx, rawEvent);
-				setLeft(tree, NULL, NULL);
+				setrChild(tree, curr, rawE);
 				break;
 			}
 			else
-				currentIdx = tree[currentIdx].rightIndex;
+				curr = tree[curr].rightInd;
 		}
 	}
-}
-
-void InTrav(vector <BinaryTree> &tree, unsigned int Idx)
-{
-	if (tree[Idx].leftIndex != -1)
-		InTrav(tree, tree[Idx].leftIndex);
-	cout << tree[Idx].rawEvent << endl;
-	if (tree[Idx].rightIndex != -1)
-		InTrav(tree, tree[Idx].rightIndex);
-}
-
-void PreTrav(vector <BinaryTree> &tree, unsigned int Idx)
-{
-	cout << tree[Idx].rawEvent << endl;
-	if (tree[Idx].leftIndex != -1)
-		PreTrav(tree, tree[Idx].leftIndex);
-	if (tree[Idx].rightIndex != -1)
-		PreTrav(tree, tree[Idx].rightIndex);
-}
-void PostTrav(vector <BinaryTree> &tree, unsigned int Idx)
-{
-	if (tree[Idx].leftIndex != -1)
-		PostTrav(tree, tree[Idx].leftIndex);
-	if (tree[Idx].rightIndex != -1)
-		PostTrav(tree, tree[Idx].rightIndex);
-	cout << tree[Idx].rawEvent << endl;
-}
-
-void rootHash()
-{
-
-}
-
-void hashFunction()
-{
-
-}
