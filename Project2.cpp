@@ -1,4 +1,6 @@
 // Project2.cpp 
+//Jacob Siva,Matt Hanley, and Jacob Leuquire
+//
 
 
 #include "stdafx.h"
@@ -17,8 +19,8 @@ int main()
 	while(input!="DONE")
 	{
 	cout << " Tracking Tree" << endl << "----------------------------------" << endl;
-	cout << " Instructions:CREATE ROOT FIRST|root(creates root of tree)| new (for new node)| preOrder(Displays preOrder traversal)," << endl;
-	cout << " display(shows inormation for a specific node)| update(update contents of specific node)| DONE (closes application)| help(to see commands) " << endl;
+	cout << " Instructions:CREATE ROOT FIRST|root(creates root of tree)| new (for new node)| preorder(Displays preOrder traversal)," << endl;
+	cout << " display(shows inormation for a specific node)| update(update contents of specific node)| DONE (closes application) " << endl;
 	cout << "----------------------------------" << endl;
 	
 	
