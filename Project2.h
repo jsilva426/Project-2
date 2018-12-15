@@ -1,5 +1,5 @@
 //Project 2.h
-//Jacob Siva,Matt Hanley, and Jacob Leuquire
+//Jacob Silva, Matt Hanley, and Jacob Leuquire
 #pragma once
 #include <vector>
 using std::vector;
