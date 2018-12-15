@@ -108,7 +108,7 @@ void updateRightHash(vector <struct node> &tree, int index)
 	{
 		updateRightHash(tree, parentIndex);
 	}
-	updateRightHist(tree, index);
+	//updateRightHist(tree, index); //Dunno yet if this was the HASH problem
 
 
 }
@@ -134,7 +134,7 @@ void updateLeftHash(vector <struct node> &tree, int index)
 		updateLeftHash(tree, parentIndex);
 	}
 
-	updateLeftHist(tree, index);
+	//updateLeftHist(tree, index); //Dunno yet if this was the HASH problem
 }
 
 void insert(vector<struct node> &tree, string rawEvent)
@@ -158,7 +158,7 @@ void insert(vector<struct node> &tree, string rawEvent)
 				updateLeftHist(tree, i);
 				updateLeftHash(tree, i);
 
-				struct node empty = { "",tree[i].ID,"null",NULL,NULL };
+				struct node empty = { "NULL",tree[i].ID,"null",NULL,NULL };
 				tree.push_back(empty);
 				tree[i].rightInd = (2 * i) + 2;
 				break;
@@ -183,10 +183,9 @@ void insert(vector<struct node> &tree, string rawEvent)
 }
 
 
-
-
 void PreTrav(vector <struct node> &tree, int Idx)
 {
+	
 	int a = -2;
 	int index = 0;
 	int divisor[7] = { 1, 3, 7, 15, 31, 63, 127 };
@@ -223,7 +222,7 @@ void display(vector<struct node> &tree, string id)
 			cout << "LHIST:";
 			for (int x = 0; x < tree[i].LHIST.size(); x++)
 			{
-				cout << tree[i].LHIST[x]<<" | ";
+				cout << tree[i].LHIST[x] << " | ";
 			}
 			cout << endl << "RHIST: ";
 			for (int x = 0; x < tree[i].RHIST.size(); x++)
@@ -239,7 +238,7 @@ void display(vector<struct node> &tree, string id)
 
 void update(vector <struct node> &tree, string searchID, string newEvent)
 {
-	int idx = 0;
+	int idx = -1;
 	for (int index = 0; index < tree.size(); index++)
 	{
 		if (tree[index].ID == searchID)
@@ -247,7 +246,7 @@ void update(vector <struct node> &tree, string searchID, string newEvent)
 			idx = index;
 		}
 	}
-	if (idx == 0)
+	if (idx == -1)
 	{
 		cout << "ID not found" << endl;
 	}
@@ -276,4 +275,3 @@ void update(vector <struct node> &tree, string searchID, string newEvent)
 
 
 }
-
