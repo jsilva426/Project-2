@@ -187,14 +187,23 @@ void insert(vector<struct node> &tree, string rawEvent)
 
 void PreTrav(vector <struct node> &tree, int Idx)
 {
-	if (Idx == 0)
+	int a = -2;
+	int index = 0;
+	int divisor[7] = { 1, 3, 7, 15, 31, 63, 127 };
+	while (a != 0)
 	{
-		cout << "Root: ";
+		a = (Idx / divisor[index]);
+		index++;
 	}
-
-	
+	if (index != 1)
+	{
+		for (int c = 0; c < index - 1; c++)
+		{
+			cout << "| ";
+		}
+	}
 	cout << tree[Idx].ID << endl;
-	if (tree[Idx].leftInd != NULL && tree[Idx].rEvent!="null")
+	if (tree[Idx].leftInd != NULL && tree[Idx].rEvent != "null")
 		PreTrav(tree, tree[Idx].leftInd);
 	if (tree[Idx].rightInd != NULL && tree[Idx].rEvent != "null")
 		PreTrav(tree, tree[Idx].rightInd);
