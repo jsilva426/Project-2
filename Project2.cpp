@@ -14,56 +14,52 @@ using std::vector;
 int main()
 {
 	string input, par, id, event;
-	bool finished = false;
 	vector<struct node> tree;
-	while(input!="DONE")
+	while (input != "quit")
 	{
-	cout << " Tracking Tree" << endl << "----------------------------------" << endl;
-	cout << " Instructions:CREATE ROOT FIRST|root(creates root of tree)| new (for new node)| preorder(Displays preOrder traversal)," << endl;
-	cout << " display(shows inormation for a specific node)| update(update contents of specific node)| DONE (closes application) " << endl;
-	cout << "----------------------------------" << endl;
-	
-	
-		cout << " Tracking Tree:  ";
+		cout << endl << "Tracking Tree" << endl << "----------------------------------" << endl;
+		cout << "Instructions: \nnew	(create node) \ndisplay	(preorder traversal)";
+		cout << " \nsearch	(finds/prints node data) \nupdate	(update contents of specific node)";
+		cout << " \nquit	(closes application) " << endl;
+		cout << "----------------------------------" << endl;
+
+
+		cout << "Input:  ";
 		cin >> input;
-		if (input == "root")
-		{
-			cout << "Enter your raw event: ";
-			cin >> event;
-			rootNode(tree, event);
-			cout << endl << "Root Created" << endl;
-		}
 		if (input == "new")
 		{
 			cout << "Enter your raw event: ";
 			cin >> event;
 			insert(tree, event);
-			cout << endl << "Node sucsessfully added" << endl;
+			//cout << endl << "Node successfully added" << endl;
 
 		}
-		if (input == "preorder")
+		if (input == "display")
 		{
 			PreTrav(tree, 0);
 			cout << endl;
 		}
-		if (input == "display")
+		if (input == "search")
 		{
-			cout << "Enter ID: ";
+			cout << "Enter search ID: ";
 			cin >> id;
 			display(tree, id);
 
 		}
 		if (input == "update")
 		{
-			cout << "Enter ID:  ";
+			cout << "Enter update ID:  ";
 			cin >> id;
 			cout << endl << "Enter new event: ";
 			cin >> event;
 			update(tree, id, event);
-			cout << endl << "Record Updated"<<endl;
+			//cout << endl << "Record Updated" << endl;
 
 		}
-
+		else
+		{
+			//cout << endl << "Invalid command" << endl;
+		}
 	}
 	return 0;
 
