@@ -192,3 +192,43 @@ void printpreorder(vector <struct node> &tree, int index)
 		printpreorder(tree, rightindex);
 	}
 }
+
+void update(vector <struct node> &tree, string searchID, string newEvent)
+{
+	int idx = 0;
+	for (int index = 0; index < tree.size(); index++)
+	{
+		if (tree[index].ID == searchID)
+		{
+			idx = index;
+		}
+	}
+	if (idx == 0)
+	{
+		cout << "ID not found" << endl;
+	}
+	else
+	{
+		int parentidx = (idx - 1) / 2;
+		if (idx % 2 == 1)
+		{
+			updateLeftHist(tree, parentidx);
+		}
+		else if (idx != 0 && idx % 2 == 0)
+		{
+			updateRightHist(tree, parentidx);
+		}
+		tree[idx].rEvent = newEvent;
+		tree[idx].ID = hashID(tree[idx].parentID, newEvent);
+		if (idx % 2 == 1)
+		{
+			updateLeftHash(tree, parentidx);
+		}
+		else if (idx != 0 && idx % 2 == 0)
+		{
+			updateRightHash(tree, parentidx);
+		}
+	}
+
+
+}
