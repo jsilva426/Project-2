@@ -38,7 +38,7 @@ struct node
 string hashID(string parent, string rawEvent)
 {
 	string id = rawEvent + parent;
-	std::hash<string> hash_fn;
+	hash<string> hash_fn;
 	size_t ID = hash_fn(id);
 	unsigned int a = ID;
 	string b = to_string(a).substr(0, 8);
@@ -46,16 +46,6 @@ string hashID(string parent, string rawEvent)
 
 }
 
-string ChildHash(string ID, string parent, string rawE, string LHASH, string RHASH)
-{
-	string l = ID + parent + rawE + LHASH + RHASH;
-	std::hash<string> hash_fn;
-	size_t h = hash_fn(l);
-	unsigned int a = h;
-	string b = to_string(a).substr(0, 8);
-	return b;
-
-}
 
 void rootNode(vector<struct node> &tree, string rawEvent)
 {
@@ -87,14 +77,14 @@ void fillNode(vector<struct node> &tree, string rawEvent, int i)
 void updateRightHist(vector <struct node> &tree, int index)
 {
 	string a = tree[index].RHASH;
-	string b = a.substr(0, 7);
+	string b = a.substr(0, 8);
 	tree[index].RHIST.push_back(b);
 }
 
 void updateLeftHist(vector <struct node> &tree, int index)
 {
 	string a = tree[index].LHASH;
-	string b = a.substr(0, 7);
+	string b = a.substr(0, 8);
 	tree[index].LHIST.push_back(b);
 }
 
@@ -112,7 +102,7 @@ void updateRightHash(vector <struct node> &tree, int index)
 	size_t h = hash_fn(a);
 	unsigned int z = h;
 	string b = to_string(z).substr(0, 8);
-	tree[index].RHASH = h;
+	tree[index].RHASH = b;
 	int parentIndex = (index - 1) / 2;
 	if (parentIndex > 0)
 	{
@@ -135,7 +125,9 @@ void updateLeftHash(vector <struct node> &tree, int index)
 	string a = theID + parent + rawE + right + left;
 	hash<string> hash_fn;
 	size_t h = hash_fn(a);
-	tree[index].LHASH = h;
+	unsigned int z = h;
+	string b = to_string(z).substr(0, 8);
+	tree[index].LHASH = b;
 	int parentIndex = (index - 1) / 2;
 	if (parentIndex > 0)
 	{
