@@ -1,3 +1,5 @@
+//Project 2.h
+//Jacob Siva,Matt Hanley, and Jacob Leuquire
 #pragma once
 #include <vector>
 using std::vector;
@@ -164,7 +166,7 @@ void insert(vector<struct node> &tree, string rawEvent)
 				updateLeftHist(tree, i);
 				updateLeftHash(tree, i);
 
-				struct node empty = { "NULL",tree[i].ID,"null",NULL,NULL };
+				struct node empty = { "",tree[i].ID,"null",NULL,NULL };
 				tree.push_back(empty);
 				tree[i].rightInd = (2 * i) + 2;
 				break;
@@ -273,3 +275,4 @@ void update(vector <struct node> &tree, string searchID, string newEvent)
 
 
 }
+
