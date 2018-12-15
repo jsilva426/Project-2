@@ -1,9 +1,14 @@
 #pragma once
+//not finished
 #include <vector>
 using std::vector;
 #include <string>
 using std::string;
 using std::to_string;
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::endl;
 #include<functional>
 using std::hash;
 
@@ -18,14 +23,14 @@ struct node
 	string ID;
 	string parentID;
 	string rEvent;
-	
+
 	int leftInd;
 	int rightInd;
 
 	string LHASH;
 	string RHASH;
 
-	vector<string>LHIST,RHIST;
+	vector<string>LHIST, RHIST;
 
 };
 
@@ -40,7 +45,7 @@ string hashID(string parent, string rawEvent)
 
 }
 
-string leftChildHash(string ID ,string parent, string rawE,string LHASH,string RHASH)
+string ChildHash(string ID, string parent, string rawE, string LHASH, string RHASH)
 {
 	string l = ID + parent + rawE + LHASH + RHASH;
 	std::hash<string> hash_fn;
@@ -50,6 +55,7 @@ string leftChildHash(string ID ,string parent, string rawE,string LHASH,string R
 	return b;
 
 }
+
 void rootNode(vector<struct node> &v1, string rawEvent)
 {
 	string id = rawEvent + "No Parent";
@@ -64,58 +70,54 @@ void rootNode(vector<struct node> &v1, string rawEvent)
 
 
 
-	struct node root = { b, rawEvent,c,-1,-1 };
+	struct node root = { b,c,rawEvent,NULL,NULL };
 	v1.push_back(root);
 }
 
 
 
-void setLChild(vector<struct node> &tree, int curr, string rawEvent)
+void fillNode(vector<struct node> &tree, string rawEvent, int i)
 {
-	int leftIndex = tree.size();
-	tree[curr].leftInd = leftIndex;
-	struct node n = { NULL,rawEvent,NULL,-1,-1 };
-	tree.push_back(n);
+	tree[i].rEvent = rawEvent;
+	tree[i].ID = hashID(tree[i].parentID, rawEvent);
+
 }
 
-void setrChild(vector<struct node> &tree, int curr, string rawEvent)
+void insert(vector<struct node> &tree, string rawEvent)
 {
-	int rightIndex = tree.size();
-	tree[curr].rightInd = rightIndex;
-	struct node n = { NULL,rawEvent,NULL,-1,-1 };
-	tree.push_back(n);
-}
-
-
-void Insert(vector<struct node> &tree, string rawE)
-{
-	if (tree.size() == 0)
+	
+	int size = tree.size();
+	if (size == 0)
 	{
-		cout << "No root, create a root first" << endl;
-		return;
+		rootNode(tree, rawEvent);
 	}
-	int curr = 0;
-	while (curr < tree.size())
+	else
 	{
-		if (rawE <= tree[curr].rEvent)
+		for(int i=0;i<size;i++)
 		{
-			if (tree[curr].leftInd == -1)
+			
+			if (tree[i].leftInd == NULL && tree[i].rightInd == NULL)
 			{
-				setLChild(tree, curr, rawE);
+				struct node a = { hashID(tree[i].ID,rawEvent), tree[i].ID, rawEvent, NULL, NULL };
+				tree.push_back(a); 
+				tree[i].leftInd= (2 * i) + 1;
+				
+				struct node empty = { hashID(tree[i].ID,"null"),tree[i].ID,"null",NULL,NULL };
+				tree.push_back(empty);
+				tree[i].rightInd= (2 * i) + 2;
 				break;
 			}
-			else
-				curr = tree[curr].leftInd;
-		}
-		else
-		{
-			if (tree[curr].rightInd == -1)
+			else if (tree[tree[i].leftInd].rEvent !="null"  && tree[tree[i].rightInd].rEvent=="null" )
 			{
-				setrChild(tree, curr, rawE);
+				fillNode(tree, rawEvent, (2 * i + 2));
 				break;
 			}
-			else
-				curr = tree[curr].rightInd;
+			else if (tree[tree[i].rightInd].rEvent != "null"  && tree[tree[i].leftInd].rEvent == "null")
+			{
+				fillNode(tree, rawEvent, (2 * i + 1));
+				break;
+			}
+
 		}
 	}
 }
