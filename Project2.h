@@ -118,3 +118,76 @@ void Insert(vector<struct node> &tree, string rawE)
 				curr = tree[curr].rightInd;
 		}
 	}
+}
+
+void updateRightHash(vector <struct node> &tree, int index)
+{
+	int rchildindex = (2 * index) + 2;
+	node r = tree[rchildindex];
+	string theID = r.ID;
+	string parent = r.parentID;
+	string rawE = r.rEvent;
+	string left = r.LHASH;
+	string right = r.RHASH;
+	string a = theID + parent + rawE + right + left;
+	hash<string> hash_fn;
+	size_t h = hash_fn(a);
+	tree[index].RHASH = a;
+	int parentIndex = (index - 1) / 2;
+	if (parentIndex > 0)
+	{
+		updateRightHash(tree, parentIndex);
+	}
+}
+
+void updateLeftHash(vector <struct node> &tree, int index)
+{
+	int lchildindex = (2 * index) + 1;
+	node m = tree[lchildindex];
+	string theID = m.ID;
+	string parent = m.parentID;
+	string rawE = m.rEvent;
+	string left = m.LHASH;
+	string right = m.RHASH;
+	string a = theID + parent + rawE + right + left;
+	hash<string> hash_fn;
+	size_t h = hash_fn(a);
+	tree[index].LHASH = a;
+	int parentIndex = (index - 1) / 2;
+	if (parentIndex > 0)
+	{
+		updateLeftHash(tree, parentIndex);
+	}
+}
+
+void updateRightHist(vector <struct node> &tree, int index)
+{
+	string a = tree[index].RHASH;
+	string b = a.substr(0, 7);
+	tree[index].RHIST.push_back(b);
+}
+
+void updateLeftHist(vector <struct node> &tree, int index)
+{
+	string a = tree[index].LHASH;
+	string b = a.substr(0, 7);
+	tree[index].LHIST.push_back(b);
+}
+
+void printpreorder(vector <struct node> &tree, int index)
+{
+	int size = tree.size();
+	int leftindex = (2 * index) + 1;
+	int rightindex = (2 * index) + 2;
+	cout << tree[index].ID << endl;
+	if (tree[leftindex].ID != "NULL" && leftindex < size)
+	{
+		cout << "| ";
+		printpreorder(tree, leftindex);
+	}
+	if (tree[rightindex].ID != "NULL" && rightindex < size)
+	{
+		cout << "| ";
+		printpreorder(tree, rightindex);
+	}
+}
