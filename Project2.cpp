@@ -29,7 +29,8 @@ int main()
 		if (input == "new")
 		{
 			cout << "Enter your raw event: ";
-			cin >> event;
+			cin.ignore();
+			getline(cin, event);
 			insert(tree, event);
 			//cout << endl << "Node successfully added" << endl;
 
@@ -51,7 +52,8 @@ int main()
 			cout << "Enter update ID:  ";
 			cin >> id;
 			cout << endl << "Enter new event: ";
-			cin >> event;
+			cin.ignore();
+			getline(cin, event);
 			update(tree, id, event);
 			//cout << endl << "Record Updated" << endl;
 
