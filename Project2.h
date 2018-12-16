@@ -202,8 +202,8 @@ void PreTrav(vector <struct node> &tree, int Idx)
 		}
 	}
 	cout << tree[Idx].ID << endl;
-	if (tree[Idx].leftInd != NULL && tree[Idx].rEvent != "null")
-		PreTrav(tree, tree[Idx].leftInd);
+	if (tree[Idx].leftInd != NULL && tree[Idx].rEvent != "null")	//help for this recursive function from:
+		PreTrav(tree, tree[Idx].leftInd);			// https://www.codeproject.com/Articles/602805/Creating-a-Binary-Search-Tree-B 
 	if (tree[Idx].rightInd != NULL && tree[Idx].rEvent != "null")
 		PreTrav(tree, tree[Idx].rightInd);
 }
